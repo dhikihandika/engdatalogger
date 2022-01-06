@@ -1,6 +1,6 @@
 # engdatalogger
 
-A new Flutter project.
+A Flutter "Energy Data Monitoring" project.
 
 ## Getting Started
 
