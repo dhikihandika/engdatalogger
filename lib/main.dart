@@ -49,8 +49,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   // Function async download
-  int count=0;
-  int date=07012021;
   Future download(String url) async {
     var status = await Permission.storage.request();
     if (status.isGranted) {
@@ -67,6 +65,20 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+  // Function increment and reset _counter
+  int date=07012021;
+  int _counter = 0;
+  void _incrementCounter() {
+    _counter++;
+    setState(() {
+    });
+  }
+  void _resetCounter() {
+    _counter=0;
+    setState(() {
+    });
+  }
+
   ReceivePort _port = ReceivePort();
   @override
   void initState() {
@@ -78,7 +90,6 @@ class _MainPageState extends State<MainPage> {
 
       if(status == DownloadTaskStatus.complete){
         print("Download Complete !");
-        count++;
       } else if(status == DownloadTaskStatus.failed){
         print("Download Failed!");
       }
@@ -86,7 +97,6 @@ class _MainPageState extends State<MainPage> {
     });
 
     FlutterDownloader.registerCallback(downloadCallback);
-
     super.initState();
     checkLoginStatus();
   }
@@ -105,7 +115,8 @@ class _MainPageState extends State<MainPage> {
   //Function main app
   @override
   Widget build(BuildContext context) {
-    var urk = 'http://192.168.1.7:8081/?filename='+ '$date' + 'datalog' + '$count' + '.txt';
+    // var urk = 'http://192.168.1.28:8081/?filename=' + '$date' + 'datalog' + '$_counter' + '.txt';
+    var urk = 'http://192.168.1.28:8081/?filename=datalog' + '$_counter' + '.txt';
 
     return Scaffold(
       appBar: AppBar(
@@ -113,7 +124,7 @@ class _MainPageState extends State<MainPage> {
         actions: <Widget>[
           FlatButton(
             onPressed: () {
-              count = 0;
+              _resetCounter();
               sharedPreferences.clear();
               sharedPreferences.commit();
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
@@ -126,12 +137,18 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Download datalog!'),
+            Text("Download datalog!",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,)
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          _incrementCounter();
           download(urk);
         },
         tooltip: 'Download',

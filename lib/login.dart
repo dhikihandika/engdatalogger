@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
       'password': password
     };
     var jsonResponse = null;
-    var apiKey = "http://192.168.1.7:8081/";
+    var apiKey = "http://192.168.1.28:8081/";
     var response = await http.post(Uri.parse(apiKey), body: data);
     if(response.statusCode == 200) {
       print(response.body); print(response.statusCode);
