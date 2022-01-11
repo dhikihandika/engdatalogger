@@ -49,12 +49,13 @@ class _MainPageState extends State<MainPage> {
   }
 
   // Function async download
+  int count=0;
+  int date=07012021;
   Future download(String url) async {
     var status = await Permission.storage.request();
     if (status.isGranted) {
       if(Platform.isAndroid){
         final baseStorage = await getExternalStorageDirectory();
-
         await FlutterDownloader.enqueue(
           url: url,
           savedDir: baseStorage!.path,
@@ -77,6 +78,7 @@ class _MainPageState extends State<MainPage> {
 
       if(status == DownloadTaskStatus.complete){
         print("Download Complete !");
+        count++;
       } else if(status == DownloadTaskStatus.failed){
         print("Download Failed!");
       }
@@ -103,8 +105,7 @@ class _MainPageState extends State<MainPage> {
   //Function main app
   @override
   Widget build(BuildContext context) {
-
-    var urk = 'http://192.168.1.28:8081/?filename=file' + '0' + '.txt';
+    var urk = 'http://192.168.1.7:8081/?filename='+ '$date' + 'datalog' + '$count' + '.txt';
 
     return Scaffold(
       appBar: AppBar(
@@ -112,6 +113,7 @@ class _MainPageState extends State<MainPage> {
         actions: <Widget>[
           FlatButton(
             onPressed: () {
+              count = 0;
               sharedPreferences.clear();
               sharedPreferences.commit();
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
@@ -129,7 +131,9 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => download(urk),
+        onPressed: () {
+          download(urk);
+        },
         tooltip: 'Download',
         child: Icon(Icons.file_download, color: Colors.white,),
         backgroundColor: Colors.blue,

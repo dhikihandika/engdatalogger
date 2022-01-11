@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -26,9 +27,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: _isLoading ? Center(child: CircularProgressIndicator()) : ListView(
           children: <Widget>[
+            parametrikSection(),
             headerSection(),
             textSection(),
             buttonSection(),
+
           ],
         ),
       ),
@@ -42,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
       'password': password
     };
     var jsonResponse = null;
-    var apiKey = "http://192.168.1.28:8081/";
+    var apiKey = "http://192.168.1.7:8081/";
     var response = await http.post(Uri.parse(apiKey), body: data);
     if(response.statusCode == 200) {
       print(response.body); print(response.statusCode);
@@ -64,24 +67,29 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Container buttonSection() {
+  Container headerSection() {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 40.0,
-      padding: EdgeInsets.symmetric(horizontal: 15.0),
-      margin: EdgeInsets.only(top: 15.0),
-      child: RaisedButton(
-        onPressed: emailController.text == "" || passwordController.text == "" ? null : () {
-          setState(() {
-            _isLoading = true;
-          });
-          signIn(emailController.text, passwordController.text);
-        },
-        elevation: 0.0,
-        color: Colors.purple,
-        child: Text("Sign In", style: TextStyle(color: Colors.white70)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-      ),
+      margin: EdgeInsets.only(top: 30.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+      child: Text("engdatalogger",
+          style: TextStyle(
+            color: Colors.white70,
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+          )),
+    );
+  }
+
+  Container parametrikSection() {
+    return Container(
+      margin: EdgeInsets.only(top: 50.0, bottom: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+      alignment: Alignment.center,
+      child: Text("parametrik",
+          style: TextStyle(
+            color: Colors.lightGreen,
+            fontSize: 40.0,
+            fontWeight: FontWeight.bold,)),
     );
   }
 
@@ -100,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
             decoration: InputDecoration(
               icon: Icon(Icons.email, color: Colors.white70),
               hintText: "Email",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.lightGreen)),
               hintStyle: TextStyle(color: Colors.white70),
             ),
           ),
@@ -113,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
             decoration: InputDecoration(
               icon: Icon(Icons.lock, color: Colors.white70),
               hintText: "Password",
-              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.lightGreen)),
               hintStyle: TextStyle(color: Colors.white70),
             ),
           ),
@@ -122,15 +130,24 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Container headerSection() {
+  Container buttonSection() {
     return Container(
-      margin: EdgeInsets.only(top: 50.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-      child: Text("engdatalogger",
-          style: TextStyle(
-              color: Colors.white70,
-              fontSize: 40.0,
-              fontWeight: FontWeight.bold)),
+      width: MediaQuery.of(context).size.width,
+      height: 40.0,
+      padding: EdgeInsets.symmetric(horizontal: 15.0),
+      margin: EdgeInsets.only(top: 15.0),
+      child: RaisedButton(
+        onPressed: emailController.text == "" || passwordController.text == "" ? null : () {
+          setState(() {
+            _isLoading = true;
+          });
+          signIn(emailController.text, passwordController.text);
+        },
+        elevation: 0.0,
+        color: Colors.lightGreen,
+        child: Text("Sign In", style: TextStyle(color: Colors.white70)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+      ),
     );
   }
 }
