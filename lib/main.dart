@@ -116,7 +116,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     // var urk = 'http://192.168.1.28:8081/?filename=' + '$date' + 'datalog' + '$_counter' + '.txt';
-    var urk = 'http://192.168.1.28:8081/?filename=datalog' + '$_counter' + '.txt';
+    var urk = 'http://192.168.8.120:8081/?filename=datalog' + '$_counter' + '.txt';
 
     return Scaffold(
       appBar: AppBar(
